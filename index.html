@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rimsha Faisal — Full Stack Developer</title>
+<meta name="description" content="Rimsha Faisal — Full Stack Developer building production healthcare systems and on-device ML." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1720;
+    --ink-2:#141F2B;
+    --paper:#F7F4EC;
+    --amber:#E8A33D;
+    --green:#4CAF7D;
+    --slate:#445066;
+    --text:#C9D2DE;
+    --text-dim:#7C8AA0;
+    --border:#243244;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation:none !important; transition:none !important;}
+  }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--text);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    line-height:1.6;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  ::selection{background:var(--amber); color:var(--ink);}
+  :focus-visible{outline:2px solid var(--amber); outline-offset:3px;}
+
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Top status bar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,23,32,0.92);
+    backdrop-filter:blur(6px);
+  }
+  .topbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+  }
+  .topbar-name{font-weight:600; color:var(--paper); text-decoration:none;}
+  .status-pill{
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--green);
+    text-transform:uppercase;
+  }
+  .status-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 3px rgba(76,175,125,0.18);
+  }
+  .topbar-links{display:flex; gap:22px;}
+  .topbar-links a{text-decoration:none; color:var(--text-dim); transition:color .15s;}
+  .topbar-links a:hover{color:var(--amber);}
+
+  .nav-toggle{
+    display:none;
+    background:none; border:1px solid var(--border);
+    color:var(--paper); border-radius:var(--radius);
+    width:38px; height:38px;
+    align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:16px;
+    cursor:pointer;
+  }
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    border-top:1px solid var(--border);
+    background:var(--ink);
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    text-decoration:none; color:var(--text);
+    font-family:'IBM Plex Mono', monospace; font-size:14px;
+    padding:14px 24px; border-bottom:1px solid var(--border);
+  }
+  .mobile-menu a:active{color:var(--amber);}
+
+  @media (max-width:640px){
+    .topbar-links{display:none;}
+    .nav-toggle{display:flex;}
+    .status-pill{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:88px 0 64px; border-bottom:1px solid var(--border);}
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; color:var(--text-dim);
+    letter-spacing:0.08em; text-transform:uppercase;
+    margin:0 0 22px;
+  }
+  .hero-eyebrow span{color:var(--amber);}
+  h1.hero-title{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:700;
+    font-size:clamp(34px, 6vw, 54px);
+    line-height:1.12;
+    color:var(--paper);
+    margin:0 0 22px;
+    max-width:12ch;
+  }
+  .hero-sub{
+    font-size:17px; color:var(--text);
+    max-width:56ch; margin:0 0 34px;
+  }
+  .hero-sub strong{color:var(--paper); font-weight:600;}
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px; letter-spacing:0.03em;
+    padding:12px 20px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--border);
+    transition:border-color .15s, transform .15s, background .15s;
+  }
+  .btn-primary{background:var(--amber); color:var(--ink); border-color:var(--amber); font-weight:600;}
+  .btn-primary:hover{transform:translateY(-1px); background:#f0ad4f;}
+  .btn-ghost{color:var(--text); }
+  .btn-ghost:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* ---------- Section shell ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--border);}
+  .section-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:36px;
+  }
+  .section-num{font-family:'IBM Plex Mono', monospace; color:var(--text-dim); font-size:13px;}
+  .section-title{
+    font-size:22px; font-weight:700; color:var(--paper); margin:0;
+  }
+  .section-note{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-dim);
+    margin-left:auto;
+  }
+
+  /* ---------- Stack strip ---------- */
+  .stack-strip{
+    display:flex; flex-wrap:wrap; gap:10px 26px;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--text-dim);
+  }
+  .stack-strip b{color:var(--paper); font-weight:600;}
+
+  /* ---------- Now callout ---------- */
+  .now-card{
+    background:var(--ink-2);
+    border:1px solid var(--border);
+    border-left:3px solid var(--green);
+    border-radius:var(--radius);
+    padding:22px 24px;
+  }
+  .now-card .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px;
+    color:var(--green); text-transform:uppercase; letter-spacing:0.08em;
+    margin-bottom:8px; display:block;
+  }
+  .now-card p{margin:0; color:var(--text);}
+  .now-card .role{color:var(--paper); font-weight:600;}
+
+  /* ---------- Project tickets ---------- */
+  .tickets{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:700px){ .tickets{grid-template-columns:1fr;} }
+  .ticket{
+    background:var(--ink-2);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+    display:flex; flex-direction:column; gap:12px;
+    transition:border-color .15s, transform .15s;
+  }
+  .ticket:hover{border-color:var(--amber); transform:translateY(-2px);}
+  .ticket-head{
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--text-dim);
+  }
+  .ticket-id{letter-spacing:0.06em;}
+  .badge{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    letter-spacing:0.06em; text-transform:uppercase;
+    padding:3px 8px; border-radius:20px;
+    border:1px solid currentColor;
+  }
+  .badge.live{color:var(--green);}
+  .badge.shipped{color:var(--amber);}
+  .badge.proto{color:var(--text-dim);}
+  .ticket h3{margin:0; font-size:17px; color:var(--paper);}
+  .ticket p{margin:0; font-size:14.5px; color:var(--text);}
+  .ticket-tags{
+    display:flex; flex-wrap:wrap; gap:7px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--text-dim);
+  }
+  .ticket-tags span{border:1px solid var(--border); padding:2px 8px; border-radius:20px;}
+  .ticket-links{display:flex; gap:16px; margin-top:4px;}
+  .ticket-links a{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    text-decoration:none; color:var(--amber);
+    border-bottom:1px solid transparent;
+  }
+  .ticket-links a:hover{border-bottom-color:var(--amber);}
+
+  /* ---------- Flagship (FDH) ---------- */
+  .flagship{
+    background:var(--ink-2); border:1px solid var(--border);
+    border-radius:var(--radius); padding:28px;
+    display:grid; grid-template-columns:1fr auto; gap:20px; align-items:start;
+    margin-bottom:22px;
+  }
+  @media (max-width:600px){ .flagship{grid-template-columns:1fr;} }
+  .flagship .tag-row{display:flex; gap:10px; align-items:center; margin-bottom:10px;}
+  .flagship h3{margin:0 0 10px; font-size:20px; color:var(--paper);}
+  .flagship p{margin:0 0 14px; color:var(--text); max-width:60ch;}
+  .flagship ul{margin:0; padding-left:18px; color:var(--text); font-size:14.5px;}
+  .flagship ul li{margin-bottom:4px;}
+  .flagship-meta{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-dim);
+    text-align:right; white-space:nowrap;
+  }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline{display:flex; flex-direction:column;}
+  .tl-item{
+    display:grid; grid-template-columns:150px 1fr; gap:20px;
+    padding:18px 0; border-top:1px solid var(--border);
+  }
+  .tl-item:first-child{border-top:none;}
+  @media (max-width:600px){ .tl-item{grid-template-columns:1fr;} }
+  .tl-date{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--text-dim);}
+  .tl-role{color:var(--paper); font-weight:600; margin:0 0 4px;}
+  .tl-co{color:var(--text-dim); font-size:13.5px; margin:0 0 8px;}
+  .tl-desc{margin:0; font-size:14.5px; color:var(--text);}
+
+  /* ---------- Contact / footer ---------- */
+  footer{padding:64px 0 48px;}
+  .contact-grid{
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:28px;
+  }
+  footer h2{
+    font-size:clamp(28px,5vw,40px); color:var(--paper); margin:0 0 14px; max-width:14ch;
+  }
+  footer .lead{color:var(--text); max-width:44ch; margin:0 0 24px;}
+  .contact-list{display:flex; flex-direction:column; gap:10px; font-family:'IBM Plex Mono', monospace; font-size:13.5px;}
+  .contact-list a{text-decoration:none; color:var(--text);}
+  .contact-list a:hover{color:var(--amber);}
+  .foot-note{
+    margin-top:56px; padding-top:20px; border-top:1px solid var(--border);
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--text-dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    .hero{padding:48px 0 40px;}
+    section{padding:44px 0;}
+    footer{padding:44px 0 32px;}
+    .hero-title{max-width:none;}
+    .hero-actions{gap:10px;}
+    .btn{padding:13px 18px; font-size:12.5px; flex:1 1 auto; justify-content:center;}
+    .section-head{flex-wrap:wrap; gap:6px 14px; margin-bottom:26px;}
+    .section-note{margin-left:0;}
+    .flagship{padding:20px;}
+    .flagship-meta{text-align:left;}
+    .stack-strip{flex-direction:column; gap:10px;}
+    .contact-grid{align-items:flex-start;}
+    .foot-note{flex-direction:column; align-items:flex-start;}
+  }
+
+  @media (max-width:400px){
+    .hero-title{font-size:30px;}
+    .btn{font-size:12px; padding:12px 14px;}
+    .ticket{padding:18px;}
+  }
+
+  /* reveal on scroll */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="#top" class="topbar-name">RIMSHA FAISAL</a>
+    <div class="topbar-links">
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <span class="status-pill"><span class="status-dot"></span>available</span>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#work">Work</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div>
+
+<div id="top" class="wrap hero">
+  <p class="hero-eyebrow">FULL STACK DEVELOPER <span>·</span> ISLAMABAD, PK</p>
+  <h1 class="hero-title">I build the systems hospitals run on.</h1>
+  <p class="hero-sub">Currently shipping production features on a live healthcare platform — <strong>React + C#/.NET</strong> on the app side, <strong>OCR and forecasting models</strong> on the ML side. I like the parts of software that other people are afraid to own end-to-end.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#projects">View projects</a>
+    <a class="btn btn-ghost" href="mailto:s.ramshafaisal@gmail.com">Say hello</a>
+    <a class="btn btn-ghost" href="https://github.com/rymshafaisal" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div>
+
+<section class="wrap reveal" id="work">
+  <div class="section-head">
+    <span class="section-num mono">00</span>
+    <h2 class="section-title">Stack</h2>
+    <span class="section-note">what I actually reach for</span>
+  </div>
+  <div class="stack-strip">
+    <span><b>Frontend</b> · React, styled-components, TanStack Query, Flutter</span>
+    <span><b>Backend</b> · C#/.NET, FastAPI, PostgreSQL, REST, FHIR</span>
+    <span><b>Real-time</b> · SignalR, SSE, BroadcastChannel</span>
+    <span><b>ML</b> · TensorFlow, PyTorch, scikit-learn, OpenCV, YOLO, SAM</span>
+  </div>
+
+  <div class="now-card" style="margin-top:28px;">
+    <span class="tag">// now</span>
+    <p><span class="role">Full Stack Developer, Ask Tech</span> — owning feature delivery end-to-end across hospital admin, insurance case management, invoicing, and wallet modules on First Digital Healthcare. Currently exploring LayoutLMv3 fine-tuning to push the OCR pipeline further.</p>
+  </div>
+</section>
+
+<section class="wrap reveal" id="projects">
+  <div class="section-head">
+    <span class="section-num mono">01</span>
+    <h2 class="section-title">Selected work</h2>
+    <span class="section-note">4 records</span>
+  </div>
+
+  <div class="flagship">
+    <div>
+      <div class="tag-row">
+        <span class="badge live">live</span>
+        <span class="mono" style="font-size:12px; color:var(--text-dim);">firstdigitalhealthcare.com</span>
+      </div>
+      <h3>First Digital Healthcare (FDH)</h3>
+      <p>A multi-role hospital platform in production — patients, hospital admins, insurance case managers, and doctors all work through it daily.</p>
+      <ul>
+        <li>Designed the OCR-driven invoice approval workflow, with real-time broadcast notifications on approval</li>
+        <li>Built the wallet module from scratch — funding, payments, receipts, statements</li>
+        <li>Six distinct portal roles, real-time case + chat updates via SSE and SignalR</li>
+      </ul>
+    </div>
+    <div class="flagship-meta">ROLE<br>Full Stack Dev<br><br>SINCE<br>04/2026</div>
+  </div>
+
+  <div class="tickets">
+    <div class="ticket">
+      <div class="ticket-head"><span class="ticket-id">REC-01</span><span class="badge shipped">shipped</span></div>
+      <h3>Wheat Disease Classifier</h3>
+      <p>Flutter app for farmers — photograph a wheat leaf, get an on-device diagnosis. No signal needed at inference time.</p>
+      <div class="ticket-tags"><span>Flutter</span><span>TFLite</span><span>ResNet50/MobileNet</span><span>Firebase</span></div>
+      <div class="ticket-links">
+        <a href="https://github.com/rymshafaisal" target="_blank" rel="noopener">Code →</a>
+      </div>
+    </div>
+
+    <div class="ticket">
+      <div class="ticket-head"><span class="ticket-id">REC-02</span><span class="badge proto">prototype</span></div>
+      <h3>RAG Resume Analyzer</h3>
+      <p>Retrieval-augmented pipeline that reads a resume and gives specific, explainable feedback — not generic tips.</p>
+      <div class="ticket-tags"><span>LangChain</span><span>Embeddings</span><span>Streamlit</span></div>
+      <div class="ticket-links">
+        <a href="https://github.com/rymshafaisal" target="_blank" rel="noopener">Code →</a>
+      </div>
+    </div>
+
+    <div class="ticket">
+      <div class="ticket-head"><span class="ticket-id">REC-03</span><span class="badge shipped">shipped</span></div>
+      <h3>InvenAI Demand Forecasting</h3>
+      <p>End-to-end forecasting module for retail inventory — ARIMA, Prophet, and LSTM benchmarked per SKU, 7/30/90-day forecasts shipped as a deployable pipeline.</p>
+      <div class="ticket-tags"><span>Prophet</span><span>LSTM</span><span>Python</span></div>
+      <div class="ticket-links">
+        <a href="https://github.com/rymshafaisal" target="_blank" rel="noopener">Code →</a>
+      </div>
+    </div>
+
+    <div class="ticket">
+      <div class="ticket-head"><span class="ticket-id">REC-04</span><span class="badge proto">prototype</span></div>
+      <h3>Brain Tumor Detection</h3>
+      <p>YOLO localizes tumors on MRI scans, SAM refines the boundary, OpenCV renders the overlay a clinician can actually read.</p>
+      <div class="ticket-tags"><span>YOLO</span><span>SAM</span><span>OpenCV</span></div>
+      <div class="ticket-links">
+        <a href="https://github.com/rymshafaisal" target="_blank" rel="noopener">Code →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal" id="experience">
+  <div class="section-head">
+    <span class="section-num mono">02</span>
+    <h2 class="section-title">Experience</h2>
+    <span class="section-note">most recent first</span>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">04/2026 — Present</div>
+      <div>
+        <p class="tl-role">Full Stack Developer</p>
+        <p class="tl-co">Ask Tech, Rawalpindi</p>
+        <p class="tl-desc">Own feature delivery across FDH's hospital admin, insurance, invoicing, and wallet modules. React + C#/.NET + PostgreSQL, real-time systems, OCR pipeline.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">10/2025 — 02/2026</div>
+      <div>
+        <p class="tl-role">Junior Data Scientist</p>
+        <p class="tl-co">Soplex Technologies, Islamabad</p>
+        <p class="tl-desc">Built demand-forecasting models (Prophet, LSTM) for retail SKUs, cutting 7-day forecast MAE by 30%.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">06/2025 — 08/2025</div>
+      <div>
+        <p class="tl-role">Deep Learning Intern</p>
+        <p class="tl-co">Arch Technologies, Islamabad</p>
+        <p class="tl-desc">Trained CNNs for multi-class image classification, lifting validation accuracy from 70% to 90%.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">01/2025 — 03/2025</div>
+      <div>
+        <p class="tl-role">AI Intern</p>
+        <p class="tl-co">Soplex Technologies, Islamabad</p>
+        <p class="tl-desc">Compared statistical vs. deep-learning forecasting approaches, selecting the best method per product category.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">09/2024 — 10/2024</div>
+      <div>
+        <p class="tl-role">AI Intern</p>
+        <p class="tl-co">DataCrumbs, Karachi</p>
+        <p class="tl-desc">Contributed to ML models for automation tasks and documented reproducible experiment logs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap reveal" id="contact">
+  <div class="contact-grid">
+    <div>
+      <h2>Let's build something that ships.</h2>
+      <p class="lead">Open to full-stack and applied-ML roles. Based in Islamabad, happy to work remote.</p>
+    </div>
+    <div class="contact-list">
+      <a href="mailto:s.ramshafaisal@gmail.com">s.ramshafaisal@gmail.com</a>
+      <a href="tel:+923285717969">+92 328 5717969</a>
+      <a href="https://linkedin.com/in/syeda-rimsha-faisal-072576260" target="_blank" rel="noopener">linkedin.com/in/syeda-rimsha-faisal</a>
+      <a href="https://github.com/rymshafaisal" target="_blank" rel="noopener">github.com/rymshafaisal</a>
+    </div>
+  </div>
+  <div class="foot-note">
+    <span>© 2026 Rimsha Faisal</span>
+    <span class="status-pill"><span class="status-dot"></span>SYSTEM: ONLINE</span>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    navToggle.textContent = isOpen ? '✕' : '☰';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.textContent = '☰';
+    });
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
